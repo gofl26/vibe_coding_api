@@ -9,7 +9,7 @@ router.get("/play", authMiddleware, async (req, res) => {
   if (!id) return res.status(400).json({ error: "id required" });
   try {
     const ytUrl = `https://www.youtube.com/watch?v=${id}`;
-    const ytProcess = spawn("yt-dlp", [
+    const ytProcess = spawn("/root/.local/bin/yt-dlp", [
       "-f",
       "bestaudio",
       "-o",
