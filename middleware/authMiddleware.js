@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 export function authMiddleware(req, res, next) {
   const authHeader = req.headers["authorization"];
+  console.log("Authorization Header:", authHeader);
   if (!authHeader) return res.status(401).json({ error: "토큰이 필요합니다." });
   const token = authHeader.split(" ")[1]; // Bearer <token>
   if (!token) return res.status(401).json({ error: "토큰이 필요합니다." });
