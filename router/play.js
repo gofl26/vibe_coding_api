@@ -4,7 +4,7 @@ import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/play", authMiddleware, async (req, res) => {
+router.get("/play", async (req, res) => {
   const { id } = req.query;
   if (!id) return res.status(400).json({ error: "id required" });
   try {
