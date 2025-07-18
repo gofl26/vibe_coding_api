@@ -82,5 +82,26 @@ export default (db) => {
     }
   });
 
+  // 플레이리스트 아이템 삭제 (DELETE)
+  router.delete("/playList/item", authMiddleware, async (req, res) => {
+    const userId = req.user.userId;
+    const { playlistId, videoIds } = req.body;
+    if (!playlistId || !videoIds || !Array.isArray(videoIds) || videoIds.length === 0) {
+      return res.status(400).json({ error: "playlistId와 videoIds(array)가 필요합니다." });
+    }
+    try {
+      for (const videoId of videoIds) {
+        await db.run(
+          "DELETE FROM playlist_items WHERE playlist_id = ? AND user_id = ? AND video_id = ?",
+          playlistId,
+          userId,
+          videoId
+        );
+      }
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
   return router;
 };
